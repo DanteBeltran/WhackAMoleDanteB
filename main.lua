@@ -9,11 +9,18 @@
 -- hide the status bar
 display.setStatusBar(display.HiddenStatusBar)
 
+-- load audio
+local cenaSound = audio.loadSound("Sounds/Cena Sound.mp3")
+local cenaTheme = audio.loadSound("Sounds/Cena Theme Song.mp3")
+
+-- play backround music
+audio.play(cenaTheme)
+
 -- Creating Background
 local bkg = display.newRect( 0, 0, display.contentWidth, display.contentHeight)
 
 	-- Setting Color
-	bkg:setFillColor( 0.5, 1, 0 )
+	bkg:setFillColor( 0.5, 1, .6 )
 
 	-- Setting Position
 	bkg.anchorX = 0
@@ -29,15 +36,15 @@ local mole = display.newImage( "Images/mole.png" , 0, 0)
 	mole.y = display.contentCenterY
 
 	-- scale down the size of the mole
-	mole:scale( 0.3, 0.3 )
+	mole:scale( 1, 1 )
 
 	-- Setting visibility
 	mole.isVisible = false
 	
 -- create a score
 local score = 0
-local scoreText = display.newText("Score = 0", display.contentCenterX, 50, nil, 50)
-scoreText:setTextColor(1, 0, 0)
+local scoreText = display.newText("Score = 0", display.contentWidth/3, 50, nil, 50)
+scoreText:setTextColor(1, 0, 1)
 
 ----------------------------------------Functions------------------------------------
 
@@ -45,6 +52,7 @@ scoreText:setTextColor(1, 0, 0)
 --  before calling the Hide function
 function PopUp()
 
+	audio.play(cenaSound)
 	-- Choosing random position on the screen between 0 and the size of the screen
 	mole.x = math.random( 0, display.contentWidth )
 	mole.y = math.random( 0, display.contentHeight )
@@ -52,7 +60,9 @@ function PopUp()
 	-- Make the mole visible
 	mole.isVisible = true
 
-	timer.performWithDelay( 500, Hide )
+	timer.performWithDelay( 1000, Hide )
+
+	
 end
 
 -- This function calls the PopUp function after 3 seconds
@@ -82,7 +92,7 @@ function Whacked( event )
 	-- If touch phase just started
 	if (event.phase == "began") then
 		score = score + 1
-		scoreText.text = "Points = " .. score
+		scoreText.text = "Score = " .. score
 		mole.isVisible = false
 
 	end
